@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  transition: background 1s ease;
+  font-family: Arial, sans-serif;
+}
+
+.clock {
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, #fdf6e3, #d4af37);
+  border: 12px solid #5a3e1b;
+  border-radius: 50%;
+  position: relative;
+  box-shadow:
+    inset 0 0 25px rgba(0,0,0,0.5),
+    0 0 30px rgba(0,0,0,0.6);
+  font-family: "Times New Roman", serif;
+}
+
+/* Roman numerals */
+.numbers span {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  transform: rotate(calc(30deg * var(--i)));
+}
+
+.numbers span::after {
+  content: attr(data-num);
+  margin-top: 12px;
+  font-weight: bold;
+  font-size: 20px;
+  color: #3e2c0e;
+}
+
+/* Hands */
+.hand {
+  position: absolute;
+  bottom: 50%;
+  left: 50%;
+  transform-origin: bottom;
+  transform: translateX(-50%);
+  border-radius: 10px;
+}
+
+.hour {
+  width: 6px;
+  height: 70px;
+  background: #3e2c0e;
+}
+
+.minute {
+  width: 4px;
+  height: 100px;
+  background: black;
+}
+
+.center-dot {
+  width: 14px;
+  height: 14px;
+  background: #5a3e1b;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.time-input {
+  margin-top: 30px;
+}
+
+input {
+  padding: 8px;
+  font-size: 16px;
+}
+
+button {
+  padding: 8px 12px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="clock">
+
+  <div class="numbers">
+    <span style="--i:1" data-num="I"></span>
+    <span style="--i:2" data-num="II"></span>
+    <span style="--i:3" data-num="III"></span>
+    <span style="--i:4" data-num="IV"></span>
+    <span style="--i:5" data-num="V"></span>
+    <span style="--i:6" data-num="VI"></span>
+    <span style="--i:7" data-num="VII"></span>
+    <span style="--i:8" data-num="VIII"></span>
+    <span style="--i:9" data-num="IX"></span>
+    <span style="--i:10" data-num="X"></span>
+    <span style="--i:11" data-num="XI"></span>
+    <span style="--i:12" data-num="XII"></span>
+  </div>
+
+  <div class="hand hour"></div>
+  <div class="hand minute"></div>
+  <div class="center-dot"></div>
+
+</div>
+
+<div class="time-input">
+  <input type="time" id="timePicker">
+  <button onclick="updateClock()">Set Time</button>
+</div>
+
+<script>
+
+function updateClock() {
+  const timeValue = document.getElementById("timePicker").value;
+  if (!timeValue) return;
+
+  const [hour, minute] = timeValue.split(":").map(Number);
+
+  const hourDeg = (hour % 12) * 30 + minute * 0.5;
+  const minuteDeg = minute * 6;
+
+  document.querySelector(".hour").style.transform =
+    `translateX(-50%) rotate(${hourDeg}deg)`;
+
+  document.querySelector(".minute").style.transform =
+    `translateX(-50%) rotate(${minuteDeg}deg)`;
+
+
+if (hour >= 5 && setHour < 12) {
+  // Morning
+  document.body.style.background =
+    "linear-gradient(to right, #ffecd2, #fcb69f)";
+}
+else if (hour >= 12 && setHour < 17) {
+  // Afternoon
+  document.body.style.background =
+    "linear-gradient(to right, #89f7fe, #66a6ff)";
+}
+else if (hour >= 17 && setHour < 20) {
+  // Evening
+  document.body.style.background =
+    "linear-gradient(to right, #f6d365, #fda085)";
+}
+else {
+  // Night
+  document.body.style.background =
+    "linear-gradient(to right, #141e30, #243b55)";
+}
+
+}
+
+</script>
+
+</body>
+</html>
